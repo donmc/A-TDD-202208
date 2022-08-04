@@ -9,30 +9,43 @@ import org.junit.jupiter.api.Assertions;
 public class StepDefinition {
 
     private TddAirApplication app;
+    private Member member;
+    private String errorMessage;
+
+    public StepDefinition() {
+        app = new TddAirApplication();
+        System.out.println("Const!");
+    }
 
     @When("member registers with username {string} and email {string}")
     public void member_registers_with_username_and_email(String username, String email) {
-        app = new TddAirApplication();
-        app.registerMember(username, email);
+        try {
+            app.registerMember(username, email);
+        }catch (Exception e) {
+            this.errorMessage = e.getMessage();
+        }
     }
     @Then("member account exists with username {string}")
     public void member_account_exists_with_username(String username) {
-        Member member = app.lookupMember(username);
+        member = app.lookupMember(username);
         Assertions.assertEquals(username, member.getUsername());
     }
     @Then("member has status of {string}")
-    public void member_has_status_of(String string) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void member_has_status_of(String status) {
+        Assertions.assertEquals(status, member.getStatus().toString());
+
     }
     @Then("member has ytd miles of {int}")
-    public void member_has_ytd_miles_of(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void member_has_ytd_miles_of(Integer ytdMiles) {
+        Assertions.assertEquals(ytdMiles, member.getYtdMiles());
     }
     @Then("member has balance miles of {int}")
-    public void member_has_balance_miles_of(Integer int1) {
-        // Write code here that turns the phrase above into concrete actions
-        throw new io.cucumber.java.PendingException();
+    public void member_has_balance_miles_of(Integer balanceMiles) {
+        Assertions.assertEquals(balanceMiles, member.getBalanceMiles());
+    }
+
+    @Then("should get error {string}")
+    public void shouldGetError(String message) {
+        Assertions.assertEquals(message, errorMessage);
     }
 }
