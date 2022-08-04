@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class TddAirApplication {
 
-    private FlightDao flights = new FlightDao();
-    private Map<String, Member> members = new HashMap<>();
+    private final FlightDao flights = new FlightDao();
+    private final Map<String, Member> members = new HashMap<>();
 
 
     public TddAirApplication() {
@@ -19,12 +19,22 @@ public class TddAirApplication {
 
     public void registerMember(String username, String email) {
         if (members.containsKey(username)) throw new DuplicateUsernameException("DUPE!");
-
+        if (emailNotValid(email)) throw new IllegalArgumentException("BAD EMAIL!");
         Member member = new Member(username, email);
         members.put(member.getUsername(), member);
     }
 
+    private boolean emailNotValid(String email) {
+        return !email.contains("@");
+    }
+
     public Member lookupMember(String username) {
         return members.get(username);
+    }
+
+    public void completeFlight(String username, String flightNumber) {
+        Member member = members.get(username);
+        Flight flight = flights.getFlightBy(flightNumber);
+        member.completeFlight(flight);
     }
 }

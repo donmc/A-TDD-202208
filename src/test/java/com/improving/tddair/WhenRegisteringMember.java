@@ -47,6 +47,12 @@ class WhenRegisteringMember {
         assertEquals(10000, member.getBalanceMiles());
     }
 
+
+    @Test
+    void shouldHave0SeatUpgrades() {
+        assertEquals(0, member.getSeatUpgradeBalance());
+    }
+
     @Test
     void shouldNotAllowDuplicateUsername() {
         try {

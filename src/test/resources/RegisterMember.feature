@@ -17,9 +17,9 @@ Feature: Register Member
     When member registers with username "<username>" and email "<email>"
     Then should get error "BAD EMAIL!"
     Examples:
-      | username | email      |
-      | don      | don@don.   |
-      | bob      | bob.com    |
-      | mary     | @chase.com |
+      | username | email       |
+      | don      | don$don.com |
+      | bob      | bob.com     |
+      | mary     | chase.com   |
 
 

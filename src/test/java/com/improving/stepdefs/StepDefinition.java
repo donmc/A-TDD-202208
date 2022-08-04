@@ -2,6 +2,7 @@ package com.improving.stepdefs;
 
 import com.improving.tddair.Member;
 import com.improving.tddair.TddAirApplication;
+import io.cucumber.java.en.Given;
 import io.cucumber.java.en.Then;
 import io.cucumber.java.en.When;
 import org.junit.jupiter.api.Assertions;
@@ -47,5 +48,20 @@ public class StepDefinition {
     @Then("should get error {string}")
     public void shouldGetError(String message) {
         Assertions.assertEquals(message, errorMessage);
+    }
+
+    @Given("member with {int}")
+    public void memberWithStartMiles(int startMiles) {
+        app = new TddAirApplication();
+        app.addFlight("TST", "TST", startMiles, "TST", 123);
+        app.registerMember("test", "test@test.com");
+        member = app.lookupMember("test");
+        app.completeFlight("test", "TST123");
+
+    }
+
+    @When("they complete flight {string}")
+    public void they_complete_flight(String flightNumber) {
+        app.completeFlight("test", flightNumber);
     }
 }
